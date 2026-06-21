@@ -1,0 +1,29 @@
+import pandas as pd
+class FlightDelayAnalyzer:
+  def create_flight_df(self,flight_log:list)->pd.DataFrame:
+    cols=["FlightID","AirlineCode","Route","Delay"]
+    df=pd.DataFrame(flight_log,columns=cols)
+    return df
+
+  def create_airline_master(self,airline_master:list)->pd.DataFrame:
+    cols=["AirlineCode","AirlineName"]
+    m_df=pd.DataFrame(airline_master,columns=cols)
+    return m_df
+
+  def merge_airline_names(self,flight_log_df:pd.DataFrame,airline_master_df:pd.DataFrame)->pd.DataFrame:
+    return pd.merge(flight_log_df,airline_master_df,on="AirlineCode",how="left")
+
+  def average_delay_by_airline(self,merged_df:pd.DataFrame)->pd.DataFrame:
+    avg_delay=merged_df.groupby("AirlineName").agg(AverageDelay=("Delay":"mean")).reset_index()
+    avg_delay=avg_delay.rename(columns={"AverageDelay":"Average Delay"})
+    return result
+
+  def most_delayed_route(self,flight_log_df:pd.DataFrame)->str:
+    delayed=flight_log_df.groupby("Route").agg(average=("Delay":"avg")).reset_index()
+    delayed=delayed.rename(columns={"average":"Average Dealy"})
+
+    most_delayed=route_delays[route_delays["Average Dealay"]==route_delays["Average Delay"].max()]
+    most_delayed=most_delayed.sort_values(by="Average Delay",ascending=False).head(1)
+
+    return most_delayed.reset_index(drop=True)
+
