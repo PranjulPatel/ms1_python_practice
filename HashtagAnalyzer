@@ -1,0 +1,35 @@
+import re
+class HashtagAnalyzer:
+  def extract_hashtag(self,caption:str)->list:
+    caption=caption.lower()
+    words=caption.split()
+    cleanHashtag=[]
+    for word in words:
+      if word.startswith("#"):
+        hashtag=word[1:]
+
+        cleanWord=re.sub(r"[^\w\s]","",hashtag)
+
+        if cleanWord:
+          cleanHashtag.append(cleanWord)
+    return cleanHashtag
+
+  def compute_hashtag_frequency(self,hashtags:list)->dict:
+    freq_dict={}
+    for hash in hashtags:
+      freq_dict[hash]=freq_dict.get(hash,0)+1
+
+    return freq_dict
+
+  def get_most_frequently_used_hashtag(self,freq_dict:dict)->tuple:
+    if not freq_dict:
+      return None
+
+    return max(freq_dict.items(),key=lambda x:x[1])
+
+  def filter_hashtags_by_frequency(self,freq_dict:dict,threshold:int)->list:
+    filtered_dict={}
+    for hashtag,count in freq_dict.items():
+      if count>=n:
+        filtered_dict[hashtag]=count
+    return filtered_dict
