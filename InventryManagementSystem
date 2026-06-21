@@ -1,0 +1,30 @@
+class InventoryManagementSystem:
+
+  def __init__(self):
+    self.inventory={}
+
+  def add_items(self,item_name:str,quantity:int)->dict:
+    if item_name in self.inventory:
+      self.inventory[item_name]+=quantity
+      self.inventory[item_name]=quantity
+    return self.inventory
+
+  def update_stock(self,item_name:str,new_quantity:int)->dict:
+    if item_name not in self.inventory:
+      raise KeyError("Not Found")
+
+    self.inventory[item_name]=new_quantity
+    return self.inventory
+
+  def get_item_stock(self,item_name:str)->int:
+    if item_name not in self.inventory:
+      raise KeyError("Not Found")
+
+    return self.inventory[item_name]
+
+  def get_available_items(self)->list:
+    avilable_items=[]
+    for item_name,quantity in self.inventory.items():
+      if quantity>0:
+        avilable_items.append(item_name)
+    return avilable_items
